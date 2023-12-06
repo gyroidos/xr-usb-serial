@@ -14,6 +14,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#ifdef CONFIG_GPIOLIB
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 4, 0)
+#include <linux/gpio/driver.h>
+#endif
+#endif
+
 /*
  * CMSPAR, some architectures can't have space and mark parity.
  */
