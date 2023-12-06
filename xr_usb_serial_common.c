@@ -2042,6 +2042,10 @@ static const struct tty_operations xr_usb_serial_ops = {
  * Init / exit.
  */
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0)
+#define tty_driver_kref_put(driver) put_tty_driver(driver)
+#endif
+
 static int __init xr_usb_serial_init(void)
 {
 	int retval;
@@ -2068,14 +2072,14 @@ static int __init xr_usb_serial_init(void)
 
 	retval = tty_register_driver(xr_usb_serial_tty_driver);
 	if (retval) {
-		put_tty_driver(xr_usb_serial_tty_driver);
+		tty_driver_kref_put(xr_usb_serial_tty_driver);
 		return retval;
 	}
 
 	retval = usb_register(&xr_usb_serial_driver);
 	if (retval) {
 		tty_unregister_driver(xr_usb_serial_tty_driver);
-		put_tty_driver(xr_usb_serial_tty_driver);
+		tty_driver_kref_put(xr_usb_serial_tty_driver);
 		return retval;
 	}
 
@@ -2088,7 +2092,7 @@ static void __exit xr_usb_serial_exit(void)
 {
 	usb_deregister(&xr_usb_serial_driver);
 	tty_unregister_driver(xr_usb_serial_tty_driver);
-	put_tty_driver(xr_usb_serial_tty_driver);
+	tty_driver_kref_put(xr_usb_serial_tty_driver);
 }
 
 module_init(xr_usb_serial_init);
