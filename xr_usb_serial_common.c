@@ -1757,7 +1757,7 @@ skip_countries:
 	xr_usb_serial->xr_gpio.ngpio		= 10;
 	xr_usb_serial->xr_gpio.can_sleep	= 1;
 
-	rv = gpiochip_add(&xr_usb_serial->xr_gpio);
+	rv = gpiochip_add_data(&xr_usb_serial->xr_gpio, NULL);
 
 	if (rv != 0) {
 		// gpiochip numbers not available, start from 0
@@ -1772,7 +1772,7 @@ skip_countries:
 		// we ran out of gpios??
 			break;
 		}
-		rv = gpiochip_add(&xr_usb_serial->xr_gpio);
+		rv = gpiochip_add_data(&xr_usb_serial->xr_gpio, NULL);
 	}
 	xr_usb_serial->rv_gpio_created = rv;
 	if (rv == 0) {
