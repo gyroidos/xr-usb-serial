@@ -27,7 +27,7 @@
 #define XR_GET_MAP_XR21B1411		1
 
 
-int xr_usb_serial_set_reg(struct xr_usb_serial *xr_usb_serial,int regnum, int value)
+static int xr_usb_serial_set_reg(struct xr_usb_serial *xr_usb_serial,int regnum, int value)
 {
 	int result;
 	int channel = 0;
@@ -97,7 +97,7 @@ int xr_usb_serial_set_reg(struct xr_usb_serial *xr_usb_serial,int regnum, int va
 	return result;       
 }
 
-int xr_usb_serial_set_reg_ext(struct xr_usb_serial *xr_usb_serial,int channel,int regnum, int value)
+static int xr_usb_serial_set_reg_ext(struct xr_usb_serial *xr_usb_serial,int channel,int regnum, int value)
 {
 	int result;
 	int XR2280xaddr = XR2280x_FUNC_MGR_OFFSET + regnum; 
@@ -163,7 +163,7 @@ int xr_usb_serial_set_reg_ext(struct xr_usb_serial *xr_usb_serial,int channel,in
 	return result;     
 }
 
-int xr_usb_serial_get_reg(struct xr_usb_serial *xr_usb_serial,int regnum, short *value)
+static int xr_usb_serial_get_reg(struct xr_usb_serial *xr_usb_serial,int regnum, short *value)
 {
 	int result;
 	int channel = 0;
@@ -253,7 +253,7 @@ int xr_usb_serial_get_reg(struct xr_usb_serial *xr_usb_serial,int regnum, short 
 	return result;
 }
 
-int xr_usb_serial_get_reg_ext(struct xr_usb_serial *xr_usb_serial,int channel,int regnum, short *value)
+static int xr_usb_serial_get_reg_ext(struct xr_usb_serial *xr_usb_serial,int channel,int regnum, short *value)
 {
 	int result;
 	int XR2280xaddr = XR2280x_FUNC_MGR_OFFSET + regnum; 
@@ -410,7 +410,7 @@ static int xr21v141x_set_baud_rate(struct xr_usb_serial *xr_usb_serial, unsigned
 /* devices aren't required to support these requests.
  * the cdc xr_usb_serial descriptor tells whether they do...
  */
-int xr_usb_serial_set_control(struct xr_usb_serial *xr_usb_serial, unsigned int control)
+static int xr_usb_serial_set_control(struct xr_usb_serial *xr_usb_serial, unsigned int control)
 {
 	int ret = 0;
     
@@ -436,7 +436,7 @@ int xr_usb_serial_set_control(struct xr_usb_serial *xr_usb_serial, unsigned int 
 	return ret;
 }
 
-int xr_usb_serial_set_line(struct xr_usb_serial *xr_usb_serial, struct usb_cdc_line_coding* line)
+static int xr_usb_serial_set_line(struct xr_usb_serial *xr_usb_serial, struct usb_cdc_line_coding* line)
 {
 	int ret = 0;
 	unsigned int format_size;
@@ -461,7 +461,7 @@ int xr_usb_serial_set_line(struct xr_usb_serial *xr_usb_serial, struct usb_cdc_l
 	return ret;
 }
 
-int xr_usb_serial_set_flow_mode(struct xr_usb_serial *xr_usb_serial, struct tty_struct *tty, unsigned int cflag)
+static int xr_usb_serial_set_flow_mode(struct xr_usb_serial *xr_usb_serial, struct tty_struct *tty, unsigned int cflag)
 {
 	unsigned int flow;
 	unsigned int gpio_mode;
@@ -503,7 +503,7 @@ int xr_usb_serial_set_flow_mode(struct xr_usb_serial *xr_usb_serial, struct tty_
 	return 0;
 }
  
-int xr_usb_serial_send_break(struct xr_usb_serial *xr_usb_serial, int state)
+static int xr_usb_serial_send_break(struct xr_usb_serial *xr_usb_serial, int state)
 {
 	int ret = 0;
 	if((xr_usb_serial->DeviceProduct == 0x1410)||
@@ -529,7 +529,7 @@ int xr_usb_serial_send_break(struct xr_usb_serial *xr_usb_serial, int state)
 #define URM_RESET_RX_FIFO_BASE	0x018
 #define URM_RESET_TX_FIFO_BASE	0x01C
 
-int xr_usb_serial_enable(struct xr_usb_serial *xr_usb_serial)
+static int xr_usb_serial_enable(struct xr_usb_serial *xr_usb_serial)
 {
 	int ret = 0;
 	int channel = xr_usb_serial->channel;
@@ -552,7 +552,7 @@ int xr_usb_serial_enable(struct xr_usb_serial *xr_usb_serial)
 	return ret;
 }
 
-int xr_usb_serial_fifo_reset(struct xr_usb_serial *xr_usb_serial)
+static int xr_usb_serial_fifo_reset(struct xr_usb_serial *xr_usb_serial)
 {
 	int ret = 0;
 	int channel = xr_usb_serial->channel;
@@ -568,7 +568,7 @@ int xr_usb_serial_fifo_reset(struct xr_usb_serial *xr_usb_serial)
 	return ret;
 }
 
-int xr_usb_serial_disable(struct xr_usb_serial *xr_usb_serial)
+static int xr_usb_serial_disable(struct xr_usb_serial *xr_usb_serial)
 {
 	int ret = 0;
 	int channel = xr_usb_serial->channel;
@@ -585,7 +585,7 @@ int xr_usb_serial_disable(struct xr_usb_serial *xr_usb_serial)
 	return ret;
 }
 
-int xr_usb_serial_set_loopback(struct xr_usb_serial *xr_usb_serial, int channel)
+static int xr_usb_serial_set_loopback(struct xr_usb_serial *xr_usb_serial, int channel)
 {
 	int ret = 0;
 	xr_usb_serial_disable(xr_usb_serial);
@@ -633,7 +633,7 @@ int xr_usb_serial_set_loopback(struct xr_usb_serial *xr_usb_serial, int channel)
 /* XR2280x_FUNC_MGR_OFFSET will be included in xr_usb_serial_set_reg */
 #define XR21B140X_WIDE_MODE_TX_OFFSET     0x22
 #define XR21B140X_WIDE_MODE_RX_OFFSET     0x25
-int xr_usb_serial_set_wide_mode(struct xr_usb_serial *xr_usb_serial, int preciseflags)
+static int xr_usb_serial_set_wide_mode(struct xr_usb_serial *xr_usb_serial, int preciseflags)
 {
 	int ret = 0;
 	int channel = xr_usb_serial->channel;  
@@ -778,7 +778,7 @@ static void init_xr21b142x_reg_map(void)
 	xr21b142x_reg_map.uart_low_latency = 0x46;
 }
 
-int xr_usb_serial_pre_setup(struct xr_usb_serial *xr_usb_serial)
+static int xr_usb_serial_pre_setup(struct xr_usb_serial *xr_usb_serial)
 {
 	int ret = 0;
 	
